@@ -20,16 +20,19 @@
         .container {
             background-color: #fff;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 15px; /* Rounded corners for the container */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%;
             max-width: 600px;
         }
         input, button {
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             font-size: 16px;
+            border-radius: 25px; /* Rounded corners for inputs and button */
+            border: 1px solid #ddd;
+            outline: none;
         }
         input[type="url"], input[type="number"] {
             width: calc(100% - 40px);
@@ -46,27 +49,11 @@
         button:hover {
             background-color: #45a049;
         }
-        /* Position for the buttons in the bottom right corner */
-        #infoButton {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            font-size: 12px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #infoButton:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
     <!-- Main container with URL and number input -->
-    <div class="container" id="mainContent">
+    <div class="container">
         <h1>Open URL Multiple Times</h1>
         <form id="urlForm">
             <input type="url" id="url" placeholder="Enter URL" required>
@@ -74,9 +61,6 @@
             <button type="submit">Open URL</button>
         </form>
     </div>
-
-    <!-- Information Button (hidden functionality for future) -->
-    <button id="infoButton">Information</button>
 
     <script>
         // Form submission logic with a more reliable tab opening in modern browsers
