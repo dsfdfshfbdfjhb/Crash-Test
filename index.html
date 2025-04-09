@@ -138,8 +138,8 @@
             background-color: #007BFF;
             color: white;
             border: none;
-            padding: 15px 20px;
-            font-size: 16px;
+            padding: 10px 15px;
+            font-size: 14px;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -148,10 +148,18 @@
             background-color: #0056b3;
         }
 
-        /* Back Button Styling */
+        /* Back Button Styling (same position as Info Button) */
         #backButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             background-color: #f44336;
-            margin: 20px;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         #backButton:hover {
@@ -200,12 +208,16 @@
         document.getElementById('infoButton').addEventListener('click', function() {
             document.getElementById('mainContent').style.display = 'none';  // Hide the main content
             document.getElementById('infoContainer').style.display = 'block';  // Show the info container
+            document.getElementById('infoButton').style.display = 'none';  // Hide Information button
+            document.getElementById('backButton').style.display = 'block';  // Show Back button
         });
 
         // Back button functionality
         document.getElementById('backButton').addEventListener('click', function() {
             document.getElementById('mainContent').style.display = 'block';  // Show the main content again
             document.getElementById('infoContainer').style.display = 'none';  // Hide the info container
+            document.getElementById('infoButton').style.display = 'block';  // Show Information button
+            document.getElementById('backButton').style.display = 'none';  // Hide Back button
         });
 
         // FPS counter logic
