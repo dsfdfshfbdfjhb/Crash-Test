@@ -45,7 +45,7 @@
         button:hover {
             background-color: #45a049;
         }
-        #fpsCounter {
+        #fpsCounter, #cpuInfo {
             position: absolute;
             top: 10px;
             left: 10px;
@@ -56,10 +56,14 @@
             font-family: monospace;
             font-size: 14px;
         }
+        #cpuInfo {
+            top: 30px; /* Below FPS counter */
+        }
     </style>
 </head>
 <body>
     <div id="fpsCounter">FPS: 0</div>
+    <div id="cpuInfo">CPU Cores: 0</div>
 
     <div class="container">
         <h1>Open URL Multiple Times</h1>
@@ -85,6 +89,10 @@
 
         // Update FPS every 1000ms
         setInterval(updateFPS, 1000 / 60); // 60 FPS
+
+        // Display CPU Cores (as a proxy for CPU usage)
+        const cpuCores = navigator.hardwareConcurrency || 'Unknown';  // Available in most modern browsers
+        document.getElementById('cpuInfo').innerText = `CPU Cores: ${cpuCores}`;
 
         // Form submission logic with a more reliable tab opening in modern browsers
         document.getElementById('urlForm').addEventListener('submit', function(event) {
