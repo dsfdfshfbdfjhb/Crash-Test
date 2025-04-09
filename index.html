@@ -14,6 +14,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            position: relative;
         }
         .container {
             background-color: #fff;
@@ -44,9 +45,22 @@
         button:hover {
             background-color: #45a049;
         }
+        #fpsCounter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
+    <div id="fpsCounter">FPS: 0</div>
+
     <div class="container">
         <h1>Open URL Multiple Times</h1>
         <form id="urlForm">
@@ -57,6 +71,22 @@
     </div>
 
     <script>
+        // FPS counter logic
+        let fps = 0;
+        let lastTime = performance.now();
+
+        function updateFPS() {
+            const now = performance.now();
+            const delta = now - lastTime;
+            fps = Math.round(1000 / delta);
+            document.getElementById('fpsCounter').innerText = `FPS: ${fps}`;
+            lastTime = now;
+        }
+
+        // Update FPS every 1000ms
+        setInterval(updateFPS, 1000 / 60); // 60 FPS
+
+        // Form submission logic
         document.getElementById('urlForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -68,7 +98,7 @@
                 return;
             }
 
-            // Open the URL the specified number of times
+            // Open the URL the specified number of times, in new tabs, without navigating away from the page
             for (let i = 0; i < num; i++) {
                 window.open(url, '_blank');
             }
