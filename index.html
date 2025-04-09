@@ -31,7 +31,7 @@
             font-size: 16px;
         }
         input[type="url"], input[type="number"] {
-            width: calc(100% - 40px);  /* Make the inputs a bit shorter than the container */
+            width: calc(100% - 40px);
             margin: 10px auto;
         }
         button {
@@ -40,12 +40,12 @@
             border: none;
             cursor: pointer;
             font-size: 18px;
-            width: 100%;  /* Button takes the full width */
+            width: 100%;
         }
         button:hover {
             background-color: #45a049;
         }
-        #fpsCounter, #cpuInfo {
+        .info {
             position: absolute;
             top: 10px;
             left: 10px;
@@ -55,15 +55,19 @@
             border-radius: 5px;
             font-family: monospace;
             font-size: 14px;
-        }
-        #cpuInfo {
-            top: 30px; /* Below FPS counter */
+            margin: 5px;
         }
     </style>
 </head>
 <body>
-    <div id="fpsCounter">FPS: 0</div>
-    <div id="cpuInfo">CPU Cores: 0</div>
+    <div id="fpsCounter" class="info">FPS: 0</div>
+    <div id="cpuInfo" class="info">CPU Cores: 0</div>
+    <div id="memoryInfo" class="info">Device Memory: 0GB</div>
+    <div id="screenInfo" class="info">Screen Resolution: 0x0</div>
+    <div id="batteryInfo" class="info">Battery: 0% Not Charging</div>
+    <div id="networkInfo" class="info">Network Type: Unknown</div>
+    <div id="osInfo" class="info">OS: Unknown</div>
+    <div id="languageInfo" class="info">Language: Unknown</div>
 
     <div class="container">
         <h1>Open URL Multiple Times</h1>
@@ -87,12 +91,40 @@
             lastTime = now;
         }
 
-        // Update FPS every 1000ms
         setInterval(updateFPS, 1000 / 60); // 60 FPS
 
         // Display CPU Cores (as a proxy for CPU usage)
-        const cpuCores = navigator.hardwareConcurrency || 'Unknown';  // Available in most modern browsers
+        const cpuCores = navigator.hardwareConcurrency || 'Unknown';
         document.getElementById('cpuInfo').innerText = `CPU Cores: ${cpuCores}`;
+
+        // Display Device Memory
+        const memory = navigator.deviceMemory || 'Unknown';
+        document.getElementById('memoryInfo').innerText = `Device Memory: ${memory}GB`;
+
+        // Display Screen Resolution
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+        document.getElementById('screenInfo').innerText = `Screen Resolution: ${screenWidth}x${screenHeight}`;
+
+        // Battery Information
+        navigator.getBattery().then(function(battery) {
+            const level = battery.level * 100;
+            const charging = battery.charging ? 'Charging' : 'Not Charging';
+            document.getElementById('batteryInfo').innerText = `Battery: ${level}% (${charging})`;
+        });
+
+        // Network Information
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const networkType = connection ? connection.effectiveType : 'Unknown';
+        document.getElementById('networkInfo').innerText = `Network Type: ${networkType}`;
+
+        // Operating System
+        const os = navigator.platform;
+        document.getElementById('osInfo').innerText = `OS: ${os}`;
+
+        // Language
+        const language = navigator.language || navigator.userLanguage;
+        document.getElementById('languageInfo').innerText = `Language: ${language}`;
 
         // Form submission logic with a more reliable tab opening in modern browsers
         document.getElementById('urlForm').addEventListener('submit', function(event) {
@@ -106,8 +138,6 @@
                 return;
             }
 
-            // Open the URL the specified number of times in new tabs
-            // Ensure the action is tied to user interaction
             for (let i = 0; i < num; i++) {
                 window.open(url, '_blank');
             }
