@@ -27,8 +27,11 @@
         input, button {
             padding: 10px;
             margin: 10px 0;
-            width: 100%;
             font-size: 16px;
+        }
+        input[type="url"], input[type="number"] {
+            width: calc(100% - 40px);  /* Make the inputs a bit shorter than the container */
+            margin: 10px auto;
         }
         button {
             background-color: #4CAF50;
@@ -36,6 +39,7 @@
             border: none;
             cursor: pointer;
             font-size: 18px;
+            width: 100%;  /* Button takes the full width */
         }
         button:hover {
             background-color: #45a049;
