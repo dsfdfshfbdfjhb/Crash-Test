@@ -124,29 +124,66 @@
         #clipboardInfo {
             bottom: 640px;
         }
+
+        /* Hide the information and make it visible when needed */
+        .info-container {
+            display: none;
+        }
+
+        /* Position for the button in the bottom right corner */
+        #infoButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #infoButton:hover {
+            background-color: #0056b3;
+        }
+
+        /* Back Button Styling */
+        #backButton {
+            background-color: #f44336;
+            margin: 20px;
+        }
+
+        #backButton:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
-    <!-- Added additional stats containers -->
-    <div id="fpsCounter" class="info">FPS: 0</div>
-    <div id="cpuInfo" class="info">CPU Cores: 0</div>
-    <div id="memoryInfo" class="info">Device Memory: 0GB</div>
-    <div id="screenInfo" class="info">Screen Resolution: 0x0</div>
-    <div id="batteryInfo" class="info">Battery: 0% Not Charging</div>
-    <div id="networkInfo" class="info">Network Type: Unknown</div>
-    <div id="osInfo" class="info">OS: Unknown</div>
-    <div id="languageInfo" class="info">Language: Unknown</div>
-    <div id="userAgentInfo" class="info">User Agent: Unknown</div>
-    <div id="timezoneInfo" class="info">Timezone: Unknown</div>
-    <div id="webGLRendererInfo" class="info">WebGL Renderer: Unknown</div>
-    <div id="pixelRatioInfo" class="info">Device Pixel Ratio: Unknown</div>
-    <div id="storageInfo" class="info">Storage: Unknown</div>
-    <div id="geoInfo" class="info">Location: Unknown</div>
-    <div id="localStorageInfo" class="info">LocalStorage: Not Supported</div>
-    <div id="sessionStorageInfo" class="info">SessionStorage: Not Supported</div>
-    <div id="clipboardInfo" class="info">Clipboard: Not Supported</div>
+    <!-- Information container with all the system stats -->
+    <div id="infoContainer" class="info-container">
+        <button id="backButton">Back</button>
+        <div id="fpsCounter" class="info">FPS: 0</div>
+        <div id="cpuInfo" class="info">CPU Cores: 0</div>
+        <div id="memoryInfo" class="info">Device Memory: 0GB</div>
+        <div id="screenInfo" class="info">Screen Resolution: 0x0</div>
+        <div id="batteryInfo" class="info">Battery: 0% Not Charging</div>
+        <div id="networkInfo" class="info">Network Type: Unknown</div>
+        <div id="osInfo" class="info">OS: Unknown</div>
+        <div id="languageInfo" class="info">Language: Unknown</div>
+        <div id="userAgentInfo" class="info">User Agent: Unknown</div>
+        <div id="timezoneInfo" class="info">Timezone: Unknown</div>
+        <div id="webGLRendererInfo" class="info">WebGL Renderer: Unknown</div>
+        <div id="pixelRatioInfo" class="info">Device Pixel Ratio: Unknown</div>
+        <div id="storageInfo" class="info">Storage: Unknown</div>
+        <div id="geoInfo" class="info">Location: Unknown</div>
+        <div id="localStorageInfo" class="info">LocalStorage: Not Supported</div>
+        <div id="sessionStorageInfo" class="info">SessionStorage: Not Supported</div>
+        <div id="clipboardInfo" class="info">Clipboard: Not Supported</div>
+    </div>
 
-    <div class="container">
+    <!-- Main container with URL and number input -->
+    <div class="container" id="mainContent">
         <h1>Open URL Multiple Times</h1>
         <form id="urlForm">
             <input type="url" id="url" placeholder="Enter URL" required>
@@ -155,15 +192,85 @@
         </form>
     </div>
 
-    <script>
-        // Add your existing script for collecting system info here...
-        
-        // Example for adding new stats:
-        document.getElementById('userAgentInfo').innerText = `User Agent: ${navigator.userAgent}`;
-        document.getElementById('timezoneInfo').innerText = `Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
-        document.getElementById('pixelRatioInfo').innerText = `Device Pixel Ratio: ${window.devicePixelRatio}`;
+    <!-- Information Button -->
+    <button id="infoButton">Information</button>
 
-        // More stats (e.g., WebGL, localStorage, etc.) can be added similarly.
+    <script>
+        // Show system info
+        document.getElementById('infoButton').addEventListener('click', function() {
+            document.getElementById('mainContent').style.display = 'none';  // Hide the main content
+            document.getElementById('infoContainer').style.display = 'block';  // Show the info container
+        });
+
+        // Back button functionality
+        document.getElementById('backButton').addEventListener('click', function() {
+            document.getElementById('mainContent').style.display = 'block';  // Show the main content again
+            document.getElementById('infoContainer').style.display = 'none';  // Hide the info container
+        });
+
+        // FPS counter logic
+        let fps = 0;
+        let lastTime = performance.now();
+
+        function updateFPS() {
+            const now = performance.now();
+            const delta = now - lastTime;
+            fps = Math.max(0, Math.round(1000 / delta)); // Ensure FPS doesn't go below 0
+            document.getElementById('fpsCounter').innerText = `FPS: ${fps}`;
+            lastTime = now;
+        }
+
+        setInterval(updateFPS, 1000 / 60); // 60 FPS
+
+        // Display CPU Cores (as a proxy for CPU usage)
+        const cpuCores = navigator.hardwareConcurrency || 'Unknown';
+        document.getElementById('cpuInfo').innerText = `CPU Cores: ${cpuCores}`;
+
+        // Display Device Memory
+        const memory = navigator.deviceMemory || 'Unknown';
+        document.getElementById('memoryInfo').innerText = `Device Memory: ${memory}GB`;
+
+        // Display Screen Resolution
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+        document.getElementById('screenInfo').innerText = `Screen Resolution: ${screenWidth}x${screenHeight}`;
+
+        // Battery Information
+        navigator.getBattery().then(function(battery) {
+            const level = battery.level * 100;
+            const charging = battery.charging ? 'Charging' : 'Not Charging';
+            document.getElementById('batteryInfo').innerText = `Battery: ${level}% (${charging})`;
+        });
+
+        // Network Information
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const networkType = connection ? connection.effectiveType : 'Unknown';
+        document.getElementById('networkInfo').innerText = `Network Type: ${networkType}`;
+
+        // Operating System
+        const os = navigator.platform;
+        document.getElementById('osInfo').innerText = `OS: ${os}`;
+
+        // Language
+        const language = navigator.language || navigator.userLanguage;
+        document.getElementById('languageInfo').innerText = `Language: ${language}`;
+
+        // Form submission logic with a more reliable tab opening in modern browsers
+        document.getElementById('urlForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const url = document.getElementById('url').value;
+            const num = parseInt(document.getElementById('num').value, 10);
+
+            if (isNaN(num) || num < 1) {
+                alert("Please enter a valid number greater than 0.");
+                return;
+            }
+
+            for (let i = 0; i < num; i++) {
+                window.open(url, '_blank');
+            }
+        });
     </script>
 </body>
 </html>
