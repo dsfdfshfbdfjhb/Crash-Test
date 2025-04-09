@@ -22,9 +22,9 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 600px;
         }
-        input, select, button {
+        input, button {
             padding: 10px;
             margin: 10px 0;
             width: 100%;
@@ -47,14 +47,7 @@
         <h1>Open URL Multiple Times</h1>
         <form id="urlForm">
             <input type="url" id="url" placeholder="Enter URL" required>
-            <select id="numSelect">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-            </select>
+            <input type="number" id="num" placeholder="Enter the number" min="1" required>
             <button type="submit">Open URL</button>
         </form>
     </div>
@@ -64,7 +57,12 @@
             event.preventDefault();
 
             const url = document.getElementById('url').value;
-            const num = document.getElementById('numSelect').value;
+            const num = parseInt(document.getElementById('num').value, 10);
+
+            if (isNaN(num) || num < 1) {
+                alert("Please enter a valid number greater than 0.");
+                return;
+            }
 
             // Open the URL the specified number of times
             for (let i = 0; i < num; i++) {
