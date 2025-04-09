@@ -7,16 +7,22 @@
     <title>Open URL Multiple Times</title>
     <link rel="icon" href="https://thumbs.dreamstime.com/b/computer-test-illustration-design-over-white-background-44436114.jpg" type="image/jpg">
     <style>
-        /* Create the animated wave-like background effect */
-        @keyframes wave {
+        /* Create the animated liquid-like background effect */
+        @keyframes liquidWave {
             0% {
-                background: linear-gradient(180deg, #00008b, #1e90ff, #ffffff);
+                background: linear-gradient(45deg, #00008b, #1e90ff, #ffffff);
+            }
+            25% {
+                background: linear-gradient(45deg, #1e90ff, #00bfff, #ffffff);
             }
             50% {
-                background: linear-gradient(180deg, #1e90ff, #00bfff, #ffffff);
+                background: linear-gradient(45deg, #00bfff, #87cefa, #ffffff);
+            }
+            75% {
+                background: linear-gradient(45deg, #87cefa, #1e90ff, #ffffff);
             }
             100% {
-                background: linear-gradient(180deg, #00008b, #1e90ff, #ffffff);
+                background: linear-gradient(45deg, #00008b, #1e90ff, #ffffff);
             }
         }
 
@@ -27,12 +33,13 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            animation: wave 5s ease-in-out infinite; /* Apply the wave animation */
-            background-size: 100% 200%;
-            background-position: center center;
+            animation: liquidWave 1s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* Apply liquid wave animation */
+            background-size: 300% 300%; /* Ensures smooth blending */
+            background-position: center;
             position: relative;
+            transition: background 1s ease-out; /* Makes the change smooth */
         }
-        
+
         .container {
             background-color: rgba(255, 255, 255, 0.8); /* Slight transparency for readability */
             padding: 20px;
