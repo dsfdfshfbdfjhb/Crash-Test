@@ -7,22 +7,13 @@
     <title>Open URL Multiple Times</title>
     <link rel="icon" href="https://thumbs.dreamstime.com/b/computer-test-illustration-design-over-white-background-44436114.jpg" type="image/jpg">
     <style>
-        /* Create a smooth rotating liquid-like background */
+        /* Create a smooth continuous rotating gradient background */
         @keyframes liquidWave {
             0% {
-                background: linear-gradient(45deg, #00008b, #1e90ff, #ffffff);
-            }
-            25% {
-                background: linear-gradient(135deg, #1e90ff, #00bfff, #ffffff);
-            }
-            50% {
-                background: linear-gradient(225deg, #00bfff, #87cefa, #ffffff);
-            }
-            75% {
-                background: linear-gradient(315deg, #87cefa, #1e90ff, #ffffff);
+                background: linear-gradient(0deg, #00008b, #1e90ff, #ffffff);
             }
             100% {
-                background: linear-gradient(45deg, #00008b, #1e90ff, #ffffff);
+                background: linear-gradient(360deg, #00008b, #1e90ff, #ffffff);
             }
         }
 
@@ -33,8 +24,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            animation: liquidWave 10s ease-in-out infinite; /* Apply slow wave animation */
-            background-size: 300% 300%; /* Make sure the gradient fills properly */
+            animation: liquidWave 60s linear infinite; /* 1 degree per second, 60s for smooth rotation */
+            background-size: 300% 300%; /* Ensure smooth blending */
             background-position: center;
             position: relative;
             transition: background 1s ease-out; /* Smooth background transition */
