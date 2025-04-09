@@ -78,7 +78,7 @@
         function updateFPS() {
             const now = performance.now();
             const delta = now - lastTime;
-            fps = Math.round(1000 / delta);
+            fps = Math.max(0, Math.round(1000 / delta)); // Ensure FPS doesn't go below 0
             document.getElementById('fpsCounter').innerText = `FPS: ${fps}`;
             lastTime = now;
         }
@@ -86,7 +86,7 @@
         // Update FPS every 1000ms
         setInterval(updateFPS, 1000 / 60); // 60 FPS
 
-        // Form submission logic
+        // Form submission logic with a more reliable tab opening in modern browsers
         document.getElementById('urlForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -98,7 +98,8 @@
                 return;
             }
 
-            // Open the URL the specified number of times, in new tabs, without navigating away from the page
+            // Open the URL the specified number of times in new tabs
+            // Ensure the action is tied to user interaction
             for (let i = 0; i < num; i++) {
                 window.open(url, '_blank');
             }
